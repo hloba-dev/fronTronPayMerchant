@@ -20,12 +20,13 @@ export const setupInterceptors = (auth) => {
     (error) => Promise.reject(error)
   );
 
-  api.interceptors.response.use(
+  const responseInterceptor = api.interceptors.response.use(
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
-      // The crucial change: DO NOT retry the refresh token request itself.
-      if (error.response?.status === 401 && originalRequest.url !== '/admin/refresh' && !originalRequest._retry) {
+      const currentToken = getAccessToken();
+      // Only attempt refresh if we currently have an access token (т.е. пользователь уже прошёл 2FA)
+      if (currentToken && error.response?.status === 401 && originalRequest.url !== '/admin/refresh' && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
           const newAccessToken = await auth.refreshAccessToken();
