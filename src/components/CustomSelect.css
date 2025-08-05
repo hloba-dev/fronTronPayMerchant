@@ -1,0 +1,75 @@
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-trigger {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 15px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.custom-select-trigger.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.arrow {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #fff;
+  transition: transform 0.3s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+.custom-options {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+  background: #2c3e50;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeIn 0.2s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-option {
+  padding: 10px 15px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.custom-option:hover {
+  background: var(--accent);
+}
+
+.custom-option.selected {
+  background: rgba(255,255,255,0.1);
+  font-weight: 600;
+} 

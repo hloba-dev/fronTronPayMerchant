@@ -1,0 +1,461 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+@import url("https://use.fontawesome.com/releases/v6.5.1/css/all.css");
+
+/* --------------------
+   Animated border box
+   -------------------- */
+
+@property --a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.box {
+  position: relative;
+  width: 450px;
+  height: 500px;
+  background: repeating-conic-gradient(
+    from var(--a),
+    var(--primary) 0%,
+    var(--primary) 5%,
+    transparent 5%,
+    transparent 40%,
+    var(--primary) 50%
+  );
+  filter: drop-shadow(0 15px 50px #000);
+  border-radius: 20px;
+  animation: rotating 4s linear infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  margin: 0 auto; /* center horizontally inside parent */
+}
+
+@keyframes rotating {
+  0% {
+    --a: 0deg;
+  }
+  100% {
+    --a: 360deg;
+  }
+}
+
+.box::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: repeating-conic-gradient(
+    from var(--a),
+    var(--accent) 0%,
+    var(--accent) 5%,
+    transparent 5%,
+    transparent 40%,
+    var(--accent) 50%
+  );
+  filter: drop-shadow(0 15px 50px #000);
+  border-radius: 20px;
+  animation: rotating 4s linear infinite;
+  animation-delay: -1s;
+}
+
+.box::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  background: var(--primary);
+  border-radius: 15px;
+  border: 8px solid var(--primary);
+}
+
+/* Static box for pages without rotating animation */
+.box-static {
+  position: relative;
+  width: 90vw;
+  max-width: 1100px;
+  min-width: 300px;
+  background: var(--primary);
+  border-radius: 20px;
+  box-shadow: 0 15px 50px #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.box-static::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  background: var(--primary);
+  border-radius: 15px;
+  border: 8px solid var(--primary);
+}
+
+/* Inner login container */
+.login {
+  position: absolute;
+  inset: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 10px;
+  background: #00000033; /* semi-transparent */
+  color: #fff;
+  z-index: 1000;
+  box-shadow: inset 0 10px 20px #00000080;
+  border-bottom: 2px solid #ffffff80;
+  transition: 0.5s;
+  overflow: hidden;
+  padding: 1.2rem; /* space from all sides */
+}
+
+/* Adjust login when inside static box */
+.box-static .login {
+  position: relative;
+  inset: 0;
+  width: 100%;
+  padding: 1.2rem;
+  overflow: visible !important; /* allow dropdowns to exceed container */
+}
+
+.loginBx {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.2rem; /* 19px for consistent spacing */
+  transform: translateY(0px);
+  transition: 0.5s;
+}
+
+h2 {
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-align: center;
+  margin: 0;
+}
+
+h2 i {
+  color: var(--primary);
+  text-shadow: 0 0 5px var(--primary), 0 0 20px var(--primary);
+  margin-right: 8px;
+}
+
+/* Form elements */
+/* Make the form itself flex-column with same gap as parent */
+.login form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  padding: 0 0.5rem; /* horizontal padding so inputs don't touch edges */
+}
+
+.login input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 20px;
+  outline: none;
+  border: none;
+  font-size: 1em;
+  color: #fff;
+  background: #0000001a;
+  border: 2px solid #fff;
+  border-radius: 30px;
+}
+
+.login input::placeholder {
+  color: #999;
+}
+
+.login input[type="submit"] {
+  background: var(--accent);
+  border: none;
+  font-weight: 500;
+  color: #111;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.login input[type="submit"]:hover {
+  box-shadow: 0 0 10px var(--accent), 0 0 60px var(--accent);
+}
+
+.group {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.group a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.group a:nth-child(2) {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* 📱 Responsive */
+@media (max-width: 480px) {
+  .box {
+    width: 90vw;
+    height: 520px;
+  }
+
+  .login {
+    inset: 20px;
+    padding: 0.8rem;
+  }
+
+  .loginBx {
+    width: 100%;
+  }
+
+  .login input {
+    font-size: 0.9em;
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 1em;
+  }
+
+  .group {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+/* Root page container */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* ----- Action menu in payments table ----- */
+.action-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.action-toggle {
+  width: auto;
+  height: auto;
+  padding: 0.3rem 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  border-radius: 6px;
+}
+
+.action-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: var(--primary);
+  border-radius: 12px;
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  z-index: 50;
+  min-width: 150px;
+}
+
+.action-menu .btn {
+  width: 100%;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9em;
+}
+
+@media (max-width: 480px) {
+  .action-menu {
+    left: auto;
+    right: 100%; /* position leftwards of toggle */
+    transform: translateX(-0.5rem); /* slight gap */
+  }
+}
+
+@media (max-width: 600px) {
+  .table tr {
+    overflow: visible;
+    position: relative; /* stacking context for dropdown */
+  }
+
+  /* Centered overlay dropdown for actions */
+  .action-menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 300px;
+    right: auto;
+    z-index: 12000;
+  }
+
+  .action-wrapper .action-toggle {
+    width: auto;
+  }
+} 
+
+/* Styles for DelegateEnergy page */
+.config-info-box {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(0,0,0,0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.delegate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Re-using detail-row from modal for consistency */
+.config-info-box .detail-row {
+  background: transparent;
+  padding: 0.5rem 0;
+  border-left: none;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.config-info-box .detail-row:last-child {
+  border-bottom: none;
+}
+
+/* Message styling */
+.message {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.message.success {
+  background-color: rgba(40, 167, 69, 0.2);
+  color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.message.error {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: #dc3545;
+  border: 1px solid #dc3545;
+} 
+
+/* Styles for Config page */
+.config-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #ccc;
+}
+
+/* Ensure inputs in config form match the global modal style */
+.config-form input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 15px;
+  outline: none;
+  border: none;
+  font-size: 1em;
+  color: #fff;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+} 
+
+/* Styles for CleanWallets page */
+.clean-wallet-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .clean-wallet-form {
+    grid-template-columns: 1fr;
+  }
+} 
+
+/* Pagination Styles */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  width: 100%;
+}
+
+.pagination-btn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 1.2em;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.2);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-weight: 600;
+  font-size: 1.1em;
+  color: #ccc;
+} 

@@ -1,0 +1,40 @@
+/* Full-screen overlay */
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 9999;
+}
+
+/* Spinner */
+.loader {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 8px solid var(--primary);
+  border-top: 8px solid var(--accent);
+  animation: spin 0.9s linear infinite;
+  box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive: slightly smaller spinner on very small screens */
+@media (max-width: 380px) {
+  .loader {
+    width: 60px;
+    height: 60px;
+    border-width: 6px;
+  }
+} 

@@ -1,0 +1,34 @@
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.stat-card {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.stat-card-icon {
+  font-size: 2.5em;
+  color: var(--accent);
+}
+
+.stat-card-title {
+  font-size: 1em;
+  color: #ccc;
+  margin-bottom: 0.25rem;
+}
+
+.stat-card-value {
+  font-size: 1.8em;
+  font-weight: 700;
+  color: #fff;
+} 
