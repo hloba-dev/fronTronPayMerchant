@@ -33,6 +33,7 @@ export default function TwoFA() {
     setLoading(true);
     try {
       const { data } = await api.post('/admin/2fa', { token, tempToken });
+      console.log('Ответ от /admin/2fa:', data); // <--- DEBUG LINE
       if (data.accessToken) {
         auth.login(data.accessToken);
         nav('/payments', { replace: true });
