@@ -8,14 +8,14 @@ export default function CleanWallets() {
   const [form, setForm] = useState({ walletAddress: '', exchange: '' });
   const [loading, setLoading] = useState(true);
   const [isActionLoading, setIsActionLoading] = useState(false);
-  const [msg, setMsg] = useState(null);
+  const [msg, setMsg] = useState(null); // Will now be an object { message: string, type: 'success' | 'error' }
 
   const fetchWallets = useCallback(async () => {
     try {
       const { data } = await api.get('/admin/clean-wallets');
       setWallets(data);
     } catch (err) {
-      setMsg({ type: 'error', text: 'Ошибка загрузки кошельков' });
+      setMsg({ message: 'Ошибка загрузки кошельков', type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -29,15 +29,17 @@ export default function CleanWallets() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMsg(null);
     setIsActionLoading(true);
+    setMsg(null);
     try {
-      await api.post('/admin/clean-wallets', form);
+      const { data } = await api.post('/admin/clean-wallets', { address: form.walletAddress, exchange: form.exchange });
       setForm({ walletAddress: '', exchange: '' });
       fetchWallets();
-      setMsg({ type: 'success', text: 'Кошелек успешно добавлен' });
+      setMsg({ message: data.message, type: 'success' });
     } catch (err) {
-      setMsg({ text: err.response?.data?.error || 'Ошибка добавления', type: 'error' });
+      // Standardize the error message shape to be an object
+      const errorMessage = err.response?.data?.error || err.message || 'Произошла неизвестная ошибка.';
+      setMsg({ message: errorMessage, type: 'error' });
     } finally {
       setIsActionLoading(false);
     }
@@ -46,12 +48,15 @@ export default function CleanWallets() {
   const handleDelete = async (id) => {
     if (!window.confirm('Вы уверены, что хотите удалить этот кошелек?')) return;
     setIsActionLoading(true);
+    setMsg(null);
     try {
-      await api.delete(`/admin/clean-wallets/${id}`);
+      const { data } = await api.delete(`/admin/clean-wallets/${id}`);
       fetchWallets();
-      setMsg({ type: 'success', text: 'Кошелек удален' });
+      setMsg({ message: data.message, type: 'success' });
     } catch (err) {
-      setMsg({ text: err.response?.data?.error || 'Ошибка удаления', type: 'error' });
+      // Standardize the error message shape to be an object
+      const errorMessage = err.response?.data?.error || err.message || 'Произошла неизвестная ошибка.';
+      setMsg({ message: errorMessage, type: 'error' });
     } finally {
       setIsActionLoading(false);
     }
@@ -92,7 +97,7 @@ export default function CleanWallets() {
 
             {msg && (
               <p className={`message ${msg.type === 'error' ? 'error' : 'success'}`}>
-                {msg.text}
+                {msg.message}
               </p>
             )}
 

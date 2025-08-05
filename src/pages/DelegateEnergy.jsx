@@ -8,8 +8,8 @@ export default function DelegateEnergy() {
   const [tronAddress, setTronAddress] = useState('');
   const [energy, setEnergy] = useState('');
   const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState(null);
-  const [config, setConfig] = useState(null);
+  const [msg, setMsg] = useState(null); // Will now be an object { message: string, type: 'success' | 'error' }
+  const [config, setConfig] = useState({});
 
   useEffect(() => {
     fetchConfig();
@@ -25,12 +25,16 @@ export default function DelegateEnergy() {
     setLoading(true);
     setMsg(null);
     try {
-      const { data } = await api.post('/admin/delegate-energy', { tronAddress, energy });
-      setMsg({ text: data.message || 'Энергия успешно делегирована', type: 'success' });
-      setTronAddress('');
-      setEnergy('');
+      const { data } = await api.post('/admin/delegate', {
+        to: e.target.to.value,
+        amount: e.target.amount.value,
+      });
+      setMsg({ message: data.message, type: 'success' });
+      e.target.reset();
     } catch (err) {
-      setMsg({ text: err.response?.data?.error || 'Ошибка делегирования', type: 'error' });
+      // Standardize the error message shape to be an object
+      const errorMessage = err.response?.data?.error || err.message || 'Произошла неизвестная ошибка.';
+      setMsg({ message: errorMessage, type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -88,7 +92,7 @@ export default function DelegateEnergy() {
 
             {msg && (
               <p className={`message ${msg.type === 'error' ? 'error' : 'success'}`}>
-                {msg.text}
+                {msg.message}
               </p>
             )}
           </div>

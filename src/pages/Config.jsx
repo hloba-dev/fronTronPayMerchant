@@ -6,7 +6,8 @@ import './Login.css';
 export default function ConfigPage() {
   const [form, setForm] = useState({ mainWallet: '', freezeWallet: '', energyWallet: '' });
   const [loading, setLoading] = useState(true);
-  const [msg, setMsg] = useState(null);
+  const [msg, setMsg] = useState(null); // Will now be an object { message: string, type: 'success' | 'error' }
+  const [config, setConfig] = useState({});
 
   const fetchConfig = async () => {
     // Initial fetch doesn't need to show the big loader
@@ -28,13 +29,19 @@ export default function ConfigPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMsg(null);
     setLoading(true);
+    setMsg(null);
     try {
-      await api.put('/admin/config', form);
-      setMsg({ text: 'Настройки успешно сохранены', type: 'success' });
+      const { data } = await api.post('/admin/config', {
+        usdt_trc20_wallet: e.target.usdt_trc20_wallet.value,
+        tron_wallet: e.target.tron_wallet.value,
+        private_key: e.target.private_key.value,
+      });
+      setMsg({ message: data.message, type: 'success' });
     } catch (err) {
-      setMsg({ text: err.response?.data?.error || 'Ошибка сохранения', type: 'error' });
+      // Standardize the error message shape to be an object
+      const errorMessage = err.response?.data?.error || err.message || 'Произошла неизвестная ошибка.';
+      setMsg({ message: errorMessage, type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -76,7 +83,7 @@ export default function ConfigPage() {
 
             {msg && (
               <p className={`message ${msg.type === 'error' ? 'error' : 'success'}`}>
-                {msg.text}
+                {msg.message}
               </p>
             )}
           </div>
