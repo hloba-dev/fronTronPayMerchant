@@ -32,10 +32,10 @@ export default function ConfigPage() {
     setLoading(true);
     setMsg(null);
     try {
-      const { data } = await api.post('/admin/config', {
-        usdt_trc20_wallet: e.target.usdt_trc20_wallet.value,
-        tron_wallet: e.target.tron_wallet.value,
-        private_key: e.target.private_key.value,
+      const { data } = await api.put('/admin/config', {
+        mainWallet  : form.mainWallet,
+        freezeWallet: form.freezeWallet,
+        energyWallet: form.energyWallet,
       });
       setMsg({ message: data.message, type: 'success' });
     } catch (err) {

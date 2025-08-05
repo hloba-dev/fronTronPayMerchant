@@ -32,7 +32,7 @@ export default function CleanWallets() {
     setIsActionLoading(true);
     setMsg(null);
     try {
-      const { data } = await api.post('/admin/clean-wallets', { address: form.walletAddress, exchange: form.exchange });
+      const { data } = await api.post('/admin/clean-wallets', { walletAddress: form.walletAddress, exchange: form.exchange });
       setForm({ walletAddress: '', exchange: '' });
       fetchWallets();
       setMsg({ message: data.message, type: 'success' });

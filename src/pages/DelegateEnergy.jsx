@@ -25,9 +25,9 @@ export default function DelegateEnergy() {
     setLoading(true);
     setMsg(null);
     try {
-      const { data } = await api.post('/admin/delegate', {
-        to: e.target.to.value,
-        amount: e.target.amount.value,
+      const { data } = await api.post('/admin/delegate-energy', {
+        tronAddress: tronAddress,
+        energy     : Number(energy),
       });
       setMsg({ message: data.message, type: 'success' });
       e.target.reset();
