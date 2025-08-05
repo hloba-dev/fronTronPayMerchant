@@ -17,8 +17,11 @@ export default function App() {
 
   // This effect connects the interceptors to the auth context
   useEffect(() => {
-    setupInterceptors(auth);
-  }, [auth]);
+    const ejectInterceptors = setupInterceptors(auth);
+
+    // cleanup on token change or unmount
+    return ejectInterceptors;
+  }, [auth.accessToken]);
 
   return (
     <Routes>
