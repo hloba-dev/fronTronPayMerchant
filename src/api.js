@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getAccessToken, setAccessToken as setAccessTokenGlobal } from './tokenStore';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -9,8 +10,10 @@ export const setupInterceptors = (auth) => {
   api.interceptors.request.use(
     (config) => {
       // As instructed, DO NOT add the Authorization header to the refresh token request
-      if (auth.accessToken && config.url !== '/admin/refresh') {
-        config.headers['Authorization'] = `Bearer ${auth.accessToken}`;
+      const token = getAccessToken();
+      if (token && config.url !== '/admin/refresh') {
+        if (!config.headers) config.headers = {};
+        config.headers['Authorization'] = `Bearer ${token}`;
       }
       return config;
     },
@@ -26,6 +29,7 @@ export const setupInterceptors = (auth) => {
         originalRequest._retry = true;
         try {
           const newAccessToken = await auth.refreshAccessToken();
+          setAccessTokenGlobal(newAccessToken);
           originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
           return api(originalRequest);
         } catch (refreshError) {

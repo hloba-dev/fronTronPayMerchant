@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import api from '../api';
+import { setAccessToken as setAccessTokenGlobal } from '../tokenStore';
 
 const AuthContext = createContext();
 
@@ -15,9 +16,11 @@ export function AuthProvider({ children }) {
     try {
       const { data } = await api.post('/admin/refresh');
       setAccessToken(data.accessToken);
+      setAccessTokenGlobal(data.accessToken);
       return data.accessToken;
     } catch (error) {
       setAccessToken(null);
+      setAccessTokenGlobal(null);
       throw error;
     }
   }, []);
@@ -34,6 +37,7 @@ export function AuthProvider({ children }) {
   
   const login = useCallback((token) => {
     setAccessToken(token);
+    setAccessTokenGlobal(token);
   }, []);
 
   const logout = useCallback(async () => {
@@ -43,6 +47,7 @@ export function AuthProvider({ children }) {
       console.error("Logout request failed, but clearing token on client-side anyway.", error);
     } finally {
       setAccessToken(null);
+      setAccessTokenGlobal(null);
     }
   }, []);
   
