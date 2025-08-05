@@ -17,10 +17,7 @@ export default function App() {
 
   // This effect connects the interceptors to the auth context
   useEffect(() => {
-    const ejectInterceptors = setupInterceptors(auth);
-
-    // Return the cleanup function to be run when the component unmounts or `auth` changes
-    return ejectInterceptors;
+    setupInterceptors(auth);
   }, [auth]);
 
   return (

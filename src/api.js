@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 export const setupInterceptors = (auth) => {
-  const requestInterceptor = api.interceptors.request.use(
+  api.interceptors.request.use(
     (config) => {
       // As instructed, DO NOT add the Authorization header to the refresh token request
       if (auth.accessToken && config.url !== '/admin/refresh') {
@@ -17,7 +17,7 @@ export const setupInterceptors = (auth) => {
     (error) => Promise.reject(error)
   );
 
-  const responseInterceptor = api.interceptors.response.use(
+  api.interceptors.response.use(
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
@@ -37,12 +37,6 @@ export const setupInterceptors = (auth) => {
       return Promise.reject(error);
     }
   );
-
-  // Return a cleanup function to eject the interceptors
-  return () => {
-    api.interceptors.request.eject(requestInterceptor);
-    api.interceptors.response.eject(responseInterceptor);
-  };
 };
 
 export default api; 

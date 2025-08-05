@@ -20,8 +20,7 @@ export default function Login() {
       // Pass the tempToken via navigation state as per instructions
       nav('/2fa', { state: { tempToken: data.tempToken } });
     } catch (err) {
-      const errorMessage = err.response?.data?.error || err.message || 'Ошибка входа';
-      addToast(errorMessage, 'error');
+      addToast(err.response?.data?.error || 'Ошибка входа', 'error');
     } finally {
       setLoading(false);
     }
