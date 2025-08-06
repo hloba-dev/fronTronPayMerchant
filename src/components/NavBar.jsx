@@ -21,6 +21,7 @@ export default function NavBar() {
       <NavLink to="/delegate-energy" onClick={onClick}>Делегирование</NavLink>
       <NavLink to="/config" onClick={onClick}>Конфигурация</NavLink>
       <NavLink to="/clean-wallets" onClick={onClick}>База чистых кошельков</NavLink>
+      <NavLink to="/subscriptions" onClick={onClick}>Подписки</NavLink>
       <NavLink to="/reports" onClick={onClick}>Отчеты</NavLink>
     </>
   );

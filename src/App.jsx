@@ -6,6 +6,7 @@ import Payments from './pages/Payments';
 import DelegateEnergy from './pages/DelegateEnergy';
 import Config from './pages/Config';
 import CleanWallets from './pages/CleanWallets';
+import Subscriptions from './pages/Subscriptions';
 import ReportsPage from './pages/Reports';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="delegate-energy" element={<DelegateEnergy />} />
           <Route path="config" element={<Config />} />
           <Route path="clean-wallets" element={<CleanWallets />} />
+          <Route path="subscriptions" element={<Subscriptions />} />
           <Route path="reports" element={<ReportsPage />} />
         </Route>
       </Route>
