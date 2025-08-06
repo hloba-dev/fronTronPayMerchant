@@ -149,7 +149,12 @@
   .modal-content {
     width: 95vw;
     max-height: 85vh;
-    overflow-y: visible; /* allow custom dropdowns to overflow */
+    overflow-y: auto; /* enable inner scroll */
+  }
+
+  /* Ensure custom dropdowns inside modal are drawn above and not clipped */
+  .custom-options {
+    position: fixed;
   }
 
   .modal-content pre {
