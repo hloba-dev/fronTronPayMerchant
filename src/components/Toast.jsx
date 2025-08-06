@@ -11,9 +11,10 @@ export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
 
   const addToast = (message, type = 'info') => {
-    // Generate a more unique key
+    // Если пришла пустая строка / null / undefined — подставим дефолт
+    const safeMessage = message && String(message).trim().length > 0 ? message : (type === 'error' ? 'Произошла ошибка' : 'Операция выполнена');
     const id = Date.now() + Math.random();
-    setToasts(prevToasts => [...prevToasts, { id, message, type }]);
+    setToasts(prevToasts => [...prevToasts, { id, message: safeMessage, type }]);
     setTimeout(() => {
       removeToast(id);
     }, 5000);
