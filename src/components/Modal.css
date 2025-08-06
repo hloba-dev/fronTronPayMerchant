@@ -149,7 +149,7 @@
   .modal-content {
     width: 95vw;
     max-height: 85vh;
-    overflow-y: auto;
+    overflow-y: visible; /* allow custom dropdowns to overflow */
   }
 
   .modal-content pre {
