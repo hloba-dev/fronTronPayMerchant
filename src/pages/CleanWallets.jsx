@@ -35,7 +35,8 @@ export default function CleanWallets() {
       const { data } = await api.post('/admin/clean-wallets', { walletAddress: form.walletAddress, exchange: form.exchange });
       setForm({ walletAddress: '', exchange: '' });
       fetchWallets();
-      setMsg({ message: data.message, type: 'success' });
+      const successText = data.message && data.message.trim() !== '' ? data.message : 'Кошелек добавлен';
+      setMsg({ message: successText, type: 'success' });
     } catch (err) {
       // Standardize the error message shape to be an object
       const errorMessage = err.response?.data?.error || err.message || 'Произошла неизвестная ошибка.';
@@ -52,7 +53,8 @@ export default function CleanWallets() {
     try {
       const { data } = await api.delete(`/admin/clean-wallets/${id}`);
       fetchWallets();
-      setMsg({ message: data.message, type: 'success' });
+      const successDel = data.message && data.message.trim() !== '' ? data.message : 'Кошелек удален';
+      setMsg({ message: successDel, type: 'success' });
     } catch (err) {
       // Standardize the error message shape to be an object
       const errorMessage = err.response?.data?.error || err.message || 'Произошла неизвестная ошибка.';

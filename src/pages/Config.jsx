@@ -37,7 +37,8 @@ export default function ConfigPage() {
         freezeWallet: form.freezeWallet,
         energyWallet: form.energyWallet,
       });
-      setMsg({ message: data.message, type: 'success' });
+      const successText = data.message && data.message.trim() !== '' ? data.message : 'Конфигурация сохранена';
+      setMsg({ message: successText, type: 'success' });
     } catch (err) {
       // Standardize the error message shape to be an object
       const errorMessage = err.response?.data?.error || err.message || 'Произошла неизвестная ошибка.';

@@ -9,7 +9,6 @@ const api = axios.create({
 export const setupInterceptors = (auth) => {
   api.interceptors.request.use(
     (config) => {
-      // As instructed, DO NOT add the Authorization header to the refresh token request
       const token = getAccessToken();
       if (token && config.url !== '/admin/refresh') {
         if (!config.headers) config.headers = {};

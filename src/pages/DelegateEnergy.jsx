@@ -29,7 +29,8 @@ export default function DelegateEnergy() {
         tronAddress: tronAddress,
         energy     : Number(energy),
       });
-      setMsg({ message: data.message, type: 'success' });
+      const successText = data.message && data.message.trim() !== '' ? data.message : 'Делегирование выполнено';
+      setMsg({ message: successText, type: 'success' });
       e.target.reset();
     } catch (err) {
       // Standardize the error message shape to be an object
